@@ -23,9 +23,9 @@ const schema = makeExecutableSchema({
 
 // initalise database
 const app = express();
-app.use(express.json)
+app.use(express.json())
 // create graphiql application
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
+app.use('/graphiql',  graphiqlExpress({ endpointURL: '/graphql' }))
 
 app.get('/', (req, res)=> res.json('s'))
 
@@ -38,7 +38,7 @@ app.use('/graphql', graphqlExpress({
     }
 }));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 // connect to the database
 
 mongoose.connect(process.env.MONGO_URI)
