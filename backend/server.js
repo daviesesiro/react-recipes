@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 require('dotenv').config({ path: 'variables.env' });
 const Recipe = require('./models/Recipe');
 const User = require('./models/User');
@@ -19,15 +18,12 @@ const schema = makeExecutableSchema({
 })
 
 
-
-
-// initalise database
 const app = express();
+
 app.use(express.json())
+
 // create graphiql application
 app.use('/graphiql',  graphiqlExpress({ endpointURL: '/graphql' }))
-
-app.get('/', (req, res)=> res.json('s'))
 
 // connect schemas with graphql
 app.use('/graphql', graphqlExpress({
@@ -39,8 +35,8 @@ app.use('/graphql', graphqlExpress({
 }));
 
 const PORT = process.env.PORT || 8000;
-// connect to the database
 
+// connect to the database
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('db connected')
