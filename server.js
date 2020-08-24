@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config({ path: "variables.env" });
+const cors = require("cors");
 const Recipe = require("./models/Recipe");
 const User = require("./models/User");
 
@@ -19,6 +20,11 @@ const schema = makeExecutableSchema({
 
 const app = express();
 
+const corsOption = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
+app.use(cors(corsOption));
 app.use(express.json());
 
 // @route post
