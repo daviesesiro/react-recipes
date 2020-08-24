@@ -27,5 +27,4 @@ type Query {
 type Mutation {
     addRecipe(name: String!, description: String!, category: String!, instructions: String!, username:String): Recipe
 }
-
 `;
