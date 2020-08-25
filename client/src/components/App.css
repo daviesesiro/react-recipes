@@ -43,6 +43,12 @@ textarea {
   flex-direction: column;
 }
 
+.form input{
+  width: 50%;
+  max-width: 50rem;
+  min-width: 30rem;
+}
+
 .delete-button {
   color: red;
   cursor: pointer;
