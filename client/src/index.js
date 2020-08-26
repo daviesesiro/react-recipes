@@ -10,6 +10,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 
 import App from "./components/App";
 import "./index.css";
+import { AuthContextProvider } from "./context/auth.context";
 
 const httpLink = createHttpLink({
   uri: "http://localhost:8000/graphql",
@@ -32,9 +33,11 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Router>
-      <App />
-    </Router>
+    <AuthContextProvider>
+      <Router>
+        <App />
+      </Router>
+    </AuthContextProvider>
   </ApolloProvider>,
   document.getElementById("root")
 );

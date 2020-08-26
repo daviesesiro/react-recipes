@@ -1,15 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { useMutation } from "react-apollo";
 import { SIGNIN_USER } from "../../queries";
 import Error from "../../components/Error";
+import { authContext } from "../../context/auth.context";
 
 const Signup = () => {
-  const formRef = useRef();
+  const { dispatch } = useContext(authContext);
   const [cred, setCred] = useState({
     username: "",
     password: "",
   });
-
+  const history = useHistory();
   const { username, password } = cred;
   const [signinUser, { loading, error }] = useMutation(SIGNIN_USER);
 
@@ -25,8 +27,8 @@ const Signup = () => {
         username: "",
         password: "",
       });
-      console.log(data.data.signinUser.token);
-      localStorage.setItem("token", data.data.signinUser.token);
+      dispatch({ type: "setToken", token: data.data.signinUser.token });
+      history.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -48,7 +50,7 @@ const Signup = () => {
   return (
     <div>
       <h2>Signup</h2>
-      <form className="form" onSubmit={handleSubmit} ref={formRef}>
+      <form className="form" onSubmit={handleSubmit}>
         <input
           type="text"
           name="username"

@@ -19,18 +19,19 @@ type User {
     joinedDate: String
     favorites: [Recipe]
 }
-
-type Query {
-    getAllRecipes: [Recipe]
-    getCurrentUser: User
-}
-
 type Token {
     token: String!
 }
 
+
+type Query {
+    getAllRecipes: [Recipe]
+    getCurrentUser: User
+    getRecipe(id: ID!): Recipe
+}
+
 type Mutation {
-    addRecipe(name: String!, description: String!, category: String!, instructions: String!, username:String): Recipe
+    addRecipe(name: String!, description: String!, category: String!, instructions: String!): Recipe
 
     signupUser(username: String!, email:String!, password: String!):Token
 

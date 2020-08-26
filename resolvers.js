@@ -9,7 +9,7 @@ const createToken = (user, secret, expiresIn) => {
 exports.resolvers = {
   Query: {
     getAllRecipes: async (root, args, { Recipe }) => {
-      const allRecipes = await Recipe.find();
+      const allRecipes = await Recipe.find().sort({ createdDate: "desc" });
       return allRecipes;
     },
 
@@ -25,21 +25,26 @@ exports.resolvers = {
       });
       return user;
     },
+
+    getRecipe: async (root, { id }, { Recipe }) => {
+      const recipe = Recipe.findOne({ _id: id });
+      return recipe;
+    },
   },
 
   Mutation: {
     // For recipes
     addRecipe: async (
       root,
-      { name, description, category, instructions, username },
-      { Recipe }
+      { name, description, category, instructions },
+      { Recipe, currentUser }
     ) => {
       const newRecipe = await new Recipe({
         name,
         description,
         instructions,
         category,
-        username,
+        username: currentUser.username,
       }).save();
       return newRecipe;
     },

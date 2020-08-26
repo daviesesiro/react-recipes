@@ -1,19 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { Query } from "react-apollo";
+import { useQuery } from "react-apollo";
 import { GET_ALL_RECIPES } from "../queries";
+import RecipeItem from "./recipe/RecipeItem";
+import { recipeContext } from "../context/recipe.context";
 const Home = () => {
-  return (
+  const { recipes, dispatch } = useContext(recipeContext);
+  const { loading } = useQuery(GET_ALL_RECIPES, {
+    onCompleted: (data) => {
+      dispatch({ type: "setRecipes", recipes: data.getAllRecipes });
+    },
+  });
+  return !loading ? (
     <div>
-      <Query query={GET_ALL_RECIPES}>
-        {({ data, loading, error }) => {
-          if (loading) return <div>Loading</div>;
-          if (error) return <div>Error</div>;
-          console.log(data);
-          return <p>recipe</p>;
-        }}
-      </Query>
+      <ul>
+        {recipes &&
+          recipes.map((recipe) => <RecipeItem key={recipe._id} {...recipe} />)}
+      </ul>
     </div>
+  ) : (
+    <div>Loading</div>
   );
 };
 export default Home;

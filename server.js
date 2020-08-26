@@ -35,9 +35,11 @@ app.use(async (req, res, next) => {
   }
 
   try {
-    token = token.split(" ")[1];
-    const currentUser = await jwt.verify(token, process.env.SECRET);
-    req.currentUser = currentUser;
+    if (token) {
+      token = token.split(" ")[1];
+      const currentUser = await jwt.verify(token, process.env.SECRET);
+      req.currentUser = currentUser;
+    }
   } catch (error) {
     console.log(error.message);
   }
