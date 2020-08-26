@@ -29,6 +29,8 @@ const Signup = () => {
         password: "",
         confirmPassword: "",
       });
+      console.log(data.data.signupUser.token);
+      localStorage.setItem("token", data.data.signupUser.token);
     } catch (error) {
       console.log(error);
     }
