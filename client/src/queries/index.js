@@ -27,6 +27,17 @@ export const GET_RECIPE = gql`
   }
 `;
 
+export const SEARCH_RECIPES = gql`
+  query($searchTerm: String) {
+    searchRecipes(searchTerm: $searchTerm) {
+      _id
+      name
+      category
+      likes
+    }
+  }
+`;
+
 // Recipes mutations
 export const ADD_RECIPE = gql`
   mutation(
@@ -53,8 +64,22 @@ export const GET_CURRENT_USER = gql`
   query {
     getCurrentUser {
       username
+      favourites {
+        _id
+        name
+      }
       email
       joinedDate
+    }
+  }
+`;
+
+export const GET_USER_RECIPES = gql`
+  query {
+    getUserRecipes {
+      _id
+      name
+      likes
     }
   }
 `;

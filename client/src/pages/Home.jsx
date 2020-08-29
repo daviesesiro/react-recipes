@@ -13,10 +13,15 @@ const Home = () => {
   });
   return !loading ? (
     <div>
-      <ul>
-        {recipes &&
-          recipes.map((recipe) => <RecipeItem key={recipe._id} {...recipe} />)}
-      </ul>
+      {recipes.length > 0 ? (
+        <ul>
+          {recipes.map((recipe) => (
+            <RecipeItem key={recipe._id} {...recipe} />
+          ))}
+        </ul>
+      ) : (
+        <h3>No Recipes available</h3>
+      )}
     </div>
   ) : (
     <div>Loading</div>

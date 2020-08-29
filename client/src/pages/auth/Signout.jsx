@@ -8,7 +8,8 @@ export default () => {
   const history = useHistory();
   const handleSignOut = (client) => {
     dispatch({ type: "setToken", token: "" });
-    client.resetStore();
+    dispatch({ type: "setUser", user: null });
+    client.clearStore();
     history.push("/signin");
   };
   return (

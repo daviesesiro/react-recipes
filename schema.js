@@ -17,7 +17,7 @@ type User {
     password: String!
     email: String!
     joinedDate: String
-    favorites: [Recipe]
+    favourites: [Recipe]
 }
 type Token {
     token: String!
@@ -27,7 +27,9 @@ type Token {
 type Query {
     getAllRecipes: [Recipe]
     getCurrentUser: User
+    getUserRecipes: [Recipe]
     getRecipe(id: ID!): Recipe
+    searchRecipes(searchTerm:String): [Recipe]
 }
 
 type Mutation {

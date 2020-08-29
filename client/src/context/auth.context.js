@@ -5,8 +5,9 @@ export const authContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [auth, dispatch] = useReducer(authReducer, {}, () => {
     const token = localStorage.getItem("token");
-    return token ? { token: token } : { token: null };
+    return token ? { token: token } : { token: "" };
   });
+
   const { token } = auth;
   useEffect(() => {
     localStorage.setItem("token", token);
@@ -30,6 +31,11 @@ const authReducer = (state, action) => {
       return {
         ...state,
         token: action.token,
+      };
+    case "setUserRefect":
+      return {
+        ...state,
+        refetch: action.refetch,
       };
     default:
       return state;

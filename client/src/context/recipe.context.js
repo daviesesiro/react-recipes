@@ -15,8 +15,14 @@ export const RecipeContextProvider = ({ children }) => {
 const recipeReducer = (state, action) => {
   switch (action.type) {
     case "addRecipe":
-      return [...state, action.recipe];
+      return [action.recipe, ...state];
     case "setRecipes":
+      // let newRecipes = [];
+      // action.recipes.forEach((recipe) => {
+      //   if (!state.includes(recipe)) {
+      //     return newRecipes.push(recipe);
+      //   }
+      // });
       return [...action.recipes];
     default:
       return state;

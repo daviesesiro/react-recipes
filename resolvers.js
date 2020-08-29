@@ -20,15 +20,48 @@ exports.resolvers = {
       const user = await User.findOne({
         username: currentUser.username,
       }).populate({
-        path: "favorites",
+        path: "favourites",
         model: "Recipe",
       });
       return user;
     },
+    getUserRecipes: async (root, args, { Recipe, currentUser }) => {
+      if (!currentUser) {
+        console.log(currentUser.username);
+        return null;
+      }
 
+      const userRecipes = await Recipe.find({
+        username: currentUser.username,
+      }).sort({ createdDate: "desc" });
+      return userRecipes;
+    },
     getRecipe: async (root, { id }, { Recipe }) => {
       const recipe = Recipe.findOne({ _id: id });
       return recipe;
+    },
+
+    searchRecipes: async (root, { searchTerm }, { Recipe }) => {
+      if (searchTerm) {
+        const searchResults = await Recipe.find(
+          {
+            $text: { $search: searchTerm },
+          },
+          {
+            score: { $meta: "textScore" },
+          }
+        ).sort({
+          score: { $meta: "textScore" },
+        });
+
+        return searchResults;
+      }
+
+      const recipes = await Recipe.find().sort({
+        likes: "desc",
+        createdDate: "desc",
+      });
+      return recipes;
     },
   },
 

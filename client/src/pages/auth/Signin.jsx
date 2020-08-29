@@ -13,7 +13,7 @@ const Signup = () => {
   });
   const history = useHistory();
   const { username, password } = cred;
-  const [signinUser, { loading, error }] = useMutation(SIGNIN_USER);
+  const [signinUser, { loading, client, error }] = useMutation(SIGNIN_USER);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,9 +32,6 @@ const Signup = () => {
     } catch (error) {
       console.log(error);
     }
-
-    // if (error) console.log(error);
-    if (data) console.log(data);
   };
 
   const handleChange = (e) => {
@@ -49,7 +46,7 @@ const Signup = () => {
 
   return (
     <div>
-      <h2>Signup</h2>
+      <h2>Signin</h2>
       <form className="form" onSubmit={handleSubmit}>
         <input
           type="text"
