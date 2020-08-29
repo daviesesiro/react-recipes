@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 export default () => {
   const [userRecipes, setUserRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const handleQueryCompleted = (data) => {
     console.log(data);
     setUserRecipes(data.getUserRecipes);

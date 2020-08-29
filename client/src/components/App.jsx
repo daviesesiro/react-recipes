@@ -15,6 +15,7 @@ import { RecipeContextProvider } from "../context/recipe.context";
 import { GET_CURRENT_USER } from "../queries";
 import { useQuery, useLazyQuery } from "react-apollo";
 import { authContext } from "../context/auth.context";
+import AuthRoute from "./AuthRoute";
 
 const App = () => {
   const { dispatch, auth } = useContext(authContext);
@@ -24,8 +25,7 @@ const App = () => {
     if (data.getCurrentUser) {
       setLoading(false);
       dispatch({ type: "setUser", user: data.getCurrentUser });
-      // console.log(data.getCurrentUser, "on");
-      dispatch({ type: "setUserRefect", refetch: refetch });
+      dispatch({ type: "setUserRefetch", refetch: refetch });
     }
     return setLoading(false);
   };
@@ -59,14 +59,16 @@ const App = () => {
             <Home />
           </RecipeContextProvider>
         </Route>
-        <Route exact path="/recipes/add">
+        <AuthRoute exact path="/recipes/add">
           <RecipeContextProvider>
             <AddRecipe />
           </RecipeContextProvider>
-        </Route>
+        </AuthRoute>
         <Route path="/recipes/:id" component={RecipePage} />
         <Route exact path="/search" component={Search} />
-        <Route exact path="/profile" component={Profile} />
+        <AuthRoute exact path="/profile">
+          <Profile />
+        </AuthRoute>
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/signup" component={Signup} />
         <Route>

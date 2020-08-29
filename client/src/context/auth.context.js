@@ -32,7 +32,7 @@ const authReducer = (state, action) => {
         ...state,
         token: action.token,
       };
-    case "setUserRefect":
+    case "setUserRefetch":
       return {
         ...state,
         refetch: action.refetch,
