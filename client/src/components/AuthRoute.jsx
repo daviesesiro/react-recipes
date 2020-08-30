@@ -6,14 +6,5 @@ export default ({ children: Component, ...others }) => {
   const {
     auth: { user },
   } = useContext(authContext);
-  console.log(user);
-  if (user) {
-    return (
-      <Route {...others}>
-        <Component />
-      </Route>
-    );
-  } else {
-    return <Redirect to="/" />;
-  }
+  return user ? <Route {...others}>{Component}</Route> : <Redirect to="/" />;
 };

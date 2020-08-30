@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useMutation } from "react-apollo";
-import { ADD_RECIPE, GET_ALL_RECIPES } from "../../queries";
+import { ADD_RECIPE, GET_ALL_RECIPES, SEARCH_RECIPES } from "../../queries";
 import Error from "../../components/Error";
 import { recipeContext } from "../../context/recipe.context";
 import { useHistory } from "react-router-dom";
@@ -19,7 +19,7 @@ export default () => {
   // run this when the cache updates
   const handleMutationUpdate = (cache, { data: { addRecipe } }) => {
     const { getAllRecipes } = cache.readQuery({ query: GET_ALL_RECIPES });
-
+    console.log(getAllRecipes);
     //adding the added recipe to the cache manually
     cache.writeQuery({
       query: GET_ALL_RECIPES,
@@ -44,6 +44,7 @@ export default () => {
   const [addRecipe, { loading, error }] = useMutation(ADD_RECIPE, {
     update: handleMutationUpdate,
     onCompleted: handleMutationCompleted,
+    refetchQueries: () => [{ query: SEARCH_RECIPES }],
   });
 
   const handleChange = async (e) => {

@@ -13,7 +13,7 @@ const Signup = () => {
   });
   const history = useHistory();
   const { username, password } = cred;
-  const [signinUser, { loading, client, error }] = useMutation(SIGNIN_USER);
+  const [signinUser, { loading, error }] = useMutation(SIGNIN_USER);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

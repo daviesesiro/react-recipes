@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useMutation } from "react-apollo";
 import { SIGNUP_USER } from "../../queries";
 import Error from "../../components/Error";

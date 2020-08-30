@@ -30,6 +30,7 @@ app.use(express.json());
 
 // set up jwt authentication middlewaer
 app.use(async (req, res, next) => {
+  console.log(req.headers.referer);
   let token = req.headers["authorization"];
   if (!token) {
   }

@@ -43,6 +43,7 @@ const App = () => {
   useEffect(() => {
     if (auth.refetch) {
       auth.refetch().then(({ data: { getCurrentUser } }) => {
+        console.log("re", getCurrentUser);
         dispatch({ type: "setUser", user: getCurrentUser });
       });
     }
