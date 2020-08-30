@@ -1,13 +1,25 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import moment from "moment";
 import { authContext } from "../../context/auth.context";
+import { useQuery } from "react-apollo";
+import { GET_CURRENT_USER } from "../../queries";
 import { Link } from "react-router-dom";
 
 export default () => {
+  const [loading, setLoading] = useState(true);
   const {
     auth: { user },
+    dispatch,
   } = useContext(authContext);
+
+  const onCompleted = (data) => {
+    dispatch({ type: "setUser", user: data.getCurrentUser });
+    setLoading(false);
+  };
+
+  useQuery(GET_CURRENT_USER, { onCompleted });
   return (
+    !loading &&
     user && (
       <>
         <h3> User Info</h3>

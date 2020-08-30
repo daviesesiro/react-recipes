@@ -27,7 +27,6 @@ exports.resolvers = {
     },
     getUserRecipes: async (root, args, { Recipe, currentUser }) => {
       if (!currentUser) {
-        console.log(currentUser.username);
         return null;
       }
 
@@ -83,6 +82,28 @@ exports.resolvers = {
     },
     deleteUserRecipe: async (root, { id }, { Recipe }) => {
       const recipe = await Recipe.deleteOne({ _id: id });
+      return recipe;
+    },
+    likeRecipe: async (root, { id }, { Recipe, User, currentUser }) => {
+      const recipe = await Recipe.findOne({ _id: id });
+      recipe.likes += 1;
+      await recipe.save();
+
+      const user = await User.findOne({ username: currentUser.username });
+      user.favourites.push(id);
+      await user.save();
+
+      return recipe;
+    },
+    unLikeRecipe: async (root, { id }, { Recipe, User, currentUser }) => {
+      const recipe = await Recipe.findOne({ _id: id });
+      recipe.likes -= 1;
+      await recipe.save();
+
+      const user = await User.findOne({ username: currentUser.username });
+      user.favourites.pull(id);
+      await user.save();
+
       return recipe;
     },
     // for users

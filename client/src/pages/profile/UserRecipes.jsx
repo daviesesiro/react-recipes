@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useQuery, useLazyQuery, useMutation } from "react-apollo";
+import { useQuery, useMutation } from "react-apollo";
 import {
   GET_USER_RECIPES,
   DELETE_USER_RECIPE,
-  GET_CURRENT_USER,
   GET_ALL_RECIPES,
   SEARCH_RECIPES,
 } from "../../queries";
@@ -20,9 +19,7 @@ export default () => {
     setLoading(false);
   };
 
-  const handleQueryError = (err) => {
-    console.log(err);
-  };
+  const handleQueryError = (err) => {};
 
   const handleDelete = (id) => {
     setDeletedRecipeId(id);
@@ -50,7 +47,6 @@ export default () => {
   const [deleteUserRecipe] = useMutation(DELETE_USER_RECIPE, {
     update: handleMutationUpdate,
     refetchQueries: () => [
-      { query: GET_CURRENT_USER },
       { query: GET_ALL_RECIPES },
       { query: SEARCH_RECIPES },
     ],

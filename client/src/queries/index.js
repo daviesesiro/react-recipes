@@ -60,8 +60,25 @@ export const ADD_RECIPE = gql`
   }
 `;
 
+export const LIKE_RECIPE = gql`
+  mutation($id: ID!) {
+    likeRecipe(id: $id) {
+      _id
+      likes
+    }
+  }
+`;
+export const UNLIKE_RECIPE = gql`
+  mutation($id: ID!) {
+    unLikeRecipe(id: $id) {
+      _id
+      likes
+    }
+  }
+`;
+
 export const DELETE_USER_RECIPE = gql`
-  mutation($id: ID) {
+  mutation($id: ID!) {
     deleteUserRecipe(id: $id) {
       _id
     }

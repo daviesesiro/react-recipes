@@ -33,15 +33,15 @@ const Signup = () => {
         password: "",
         confirmPassword: "",
       });
-      console.log(data.data.signupUser.token);
+
       dispatch({ type: "setToken", token: data.data.signupUser.token });
       history.push("/");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
     // if (error) console.log(error);
-    if (data) console.log(data);
+    // if (data) console.log(data);
   };
 
   const handleChange = (e) => {

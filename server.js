@@ -30,7 +30,6 @@ app.use(express.json());
 
 // set up jwt authentication middlewaer
 app.use(async (req, res, next) => {
-  console.log(req.headers.referer);
   let token = req.headers["authorization"];
   if (!token) {
   }
@@ -41,9 +40,7 @@ app.use(async (req, res, next) => {
       const currentUser = await jwt.verify(token, process.env.SECRET);
       req.currentUser = currentUser;
     }
-  } catch (error) {
-    console.log(error.name);
-  }
+  } catch (error) {}
   next();
 });
 

@@ -1,6 +1,11 @@
 import React, { useState, useContext } from "react";
 import { useMutation } from "react-apollo";
-import { ADD_RECIPE, GET_ALL_RECIPES, SEARCH_RECIPES } from "../../queries";
+import {
+  ADD_RECIPE,
+  GET_ALL_RECIPES,
+  SEARCH_RECIPES,
+  GET_USER_RECIPES,
+} from "../../queries";
 import Error from "../../components/Error";
 import { recipeContext } from "../../context/recipe.context";
 import { useHistory } from "react-router-dom";
@@ -8,7 +13,7 @@ import { useHistory } from "react-router-dom";
 export default () => {
   const history = useHistory();
 
-  const { dispatch } = useContext(recipeContext);
+  const { recipes, dispatch } = useContext(recipeContext);
   const [recipe, setRecipe] = useState({
     name: "",
     category: "Breakfast",
@@ -17,14 +22,14 @@ export default () => {
   });
 
   // run this when the cache updates
-  const handleMutationUpdate = (cache, { data: { addRecipe } }) => {
-    const { getAllRecipes } = cache.readQuery({ query: GET_ALL_RECIPES });
-    console.log(getAllRecipes);
+  const handleMutationUpdate = async (cache, { data: { addRecipe } }) => {
+    // const data = cache.readQuery({ query: GET_ALL_RECIPES });
+
     //adding the added recipe to the cache manually
     cache.writeQuery({
       query: GET_ALL_RECIPES,
       data: {
-        getAllRecipes: [addRecipe, ...getAllRecipes],
+        getAllRecipes: [addRecipe, ...recipes],
       },
     });
   };
@@ -44,7 +49,11 @@ export default () => {
   const [addRecipe, { loading, error }] = useMutation(ADD_RECIPE, {
     update: handleMutationUpdate,
     onCompleted: handleMutationCompleted,
-    refetchQueries: () => [{ query: SEARCH_RECIPES }],
+    refetchQueries: () => [
+      { query: SEARCH_RECIPES },
+      { query: GET_ALL_RECIPES },
+      { query: GET_USER_RECIPES },
+    ],
   });
 
   const handleChange = async (e) => {

@@ -13,7 +13,7 @@ import Profile from "../pages/profile/Profile";
 import RecipePage from "../pages/recipe/RecipePage";
 import { RecipeContextProvider } from "../context/recipe.context";
 import { GET_CURRENT_USER } from "../queries";
-import { useQuery, useLazyQuery } from "react-apollo";
+import { useQuery } from "react-apollo";
 import { authContext } from "../context/auth.context";
 import AuthRoute from "./AuthRoute";
 
@@ -32,7 +32,6 @@ const App = () => {
 
   const onError = (error) => {
     setLoading(false);
-    console.log(error);
   };
 
   const { refetch } = useQuery(GET_CURRENT_USER, {
@@ -40,14 +39,16 @@ const App = () => {
     onError,
   });
 
-  useEffect(() => {
-    if (auth.refetch) {
-      auth.refetch().then(({ data: { getCurrentUser } }) => {
-        console.log("re", getCurrentUser);
-        dispatch({ type: "setUser", user: getCurrentUser });
-      });
-    }
-  }, [auth.token]);
+  useEffect(
+    () => {
+      if (auth.refetch) {
+        auth.refetch().then(({ data: { getCurrentUser } }) => {
+          dispatch({ type: "setUser", user: getCurrentUser });
+        });
+      }
+    }, // eslint-disable-next-line
+    [auth.token, dispatch]
+  );
 
   return loading ? (
     <div>Loading</div>

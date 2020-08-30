@@ -29,9 +29,7 @@ const Signup = () => {
       });
       dispatch({ type: "setToken", token: data.data.signinUser.token });
       history.push("/");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleChange = (e) => {
